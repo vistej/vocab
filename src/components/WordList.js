@@ -13,7 +13,17 @@ const WordList = () => {
     });
   }, []);
 
-  React.useEffect(() => {
+  // React.useEffect(() => {
+  //   if (selectedWord) {
+  //     axios
+  //       .get(`https://api.dictionaryapi.dev/api/v2/entries/en/${selectedWord}`)
+  //       .then((res) => {
+  //         setMeaning(res.data[0]);
+  //       });
+  //   }
+  // }, [selectedWord]);
+
+  const showMeaning = () => {
     if (selectedWord) {
       axios
         .get(`https://api.dictionaryapi.dev/api/v2/entries/en/${selectedWord}`)
@@ -21,13 +31,18 @@ const WordList = () => {
           setMeaning(res.data[0]);
         });
     }
-  }, [selectedWord]);
+  };
 
   const onGroupSelect = (group) => {
     setSelectedGroup(group);
     setSelectedWord(null);
     setMeaning(null);
   };
+
+  const onWordSelect = (word) => {
+    setSelectedWord(word);
+    setMeaning(null)
+  }
 
   const copyToClipboard = (word) => {
     var textField = document.createElement('textarea');
@@ -75,7 +90,7 @@ const WordList = () => {
                     'border-2 rounded-md border-black p-1 hover:bg-black hover:text-white' +
                     (word === selectedWord ? ' bg-black text-white' : '')
                   }
-                  onClick={() => setSelectedWord(word)}
+                  onClick={() => onWordSelect(word)}
                 >
                   {word}
                 </button>
@@ -96,6 +111,12 @@ const WordList = () => {
               onClick={() => copyToClipboard(selectedWord)}
             >
               copy
+            </button>
+            <button
+              className='border-2 rounded-md border-black p-1 hover:bg-black hover:text-white'
+              onClick={showMeaning}
+            >
+              show meaning
             </button>
             <button
               className='border-2 rounded-md border-black p-1 hover:bg-black hover:text-white'
@@ -120,28 +141,40 @@ const WordList = () => {
                     </div>
                   );
                 })}
-                {m.synonyms.length ? 
-                <div className='flex justify-start flex-wrap pt-2 gap-2'>
-                  <p className='font-bold'>&emsp;synonyms: </p>
-                {m.synonyms.map((s) => {
-                    return (
-                      <p key={s} className='border rounded-xl border-slate-500 px-1'>
-                        {s}
-                      </p>
-                    );
-                  })}
-                </div>: <></>}
-                {m.antonyms.length ? 
-                <div className='flex justify-start flex-wrap pt-2 gap-2'>
-                  <p className='font-bold'>&emsp;antonyms: </p>
-                {m.antonyms.map((s) => {
-                    return (
-                      <p key={s} className='border rounded-xl border-slate-500 px-1'>
-                        {s}
-                      </p>
-                    );
-                  })}
-                </div>: <></>}
+                {m.synonyms.length ? (
+                  <div className='flex justify-start flex-wrap pt-2 gap-2'>
+                    <p className='font-bold'>&emsp;synonyms: </p>
+                    {m.synonyms.map((s) => {
+                      return (
+                        <p
+                          key={s}
+                          className='border rounded-xl border-slate-500 px-1'
+                        >
+                          {s}
+                        </p>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <></>
+                )}
+                {m.antonyms.length ? (
+                  <div className='flex justify-start flex-wrap pt-2 gap-2'>
+                    <p className='font-bold'>&emsp;antonyms: </p>
+                    {m.antonyms.map((s) => {
+                      return (
+                        <p
+                          key={s}
+                          className='border rounded-xl border-slate-500 px-1'
+                        >
+                          {s}
+                        </p>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <></>
+                )}
               </div>
             );
           })}
