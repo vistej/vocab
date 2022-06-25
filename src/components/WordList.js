@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const WordList = () => {
   const [words, setWords] = React.useState();
@@ -8,6 +8,7 @@ const WordList = () => {
   const [selectedWord, setSelectedWord] = React.useState(null);
   const [meaning, setMeaning] = React.useState(null);
   const { group, word } = useParams();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     if (group) {
@@ -28,6 +29,14 @@ const WordList = () => {
     });
   }, []);
 
+  document.onkeydown = (e) => {
+    if (e.key === "ArrowLeft") {
+      onPrev()
+    } else if(e.key === "ArrowRight") {
+      onNext()
+    }
+  }
+
   const showMeaning = () => {
     if (selectedWord && (!meaning || meaning.word !== selectedWord)) {
       axios
@@ -39,17 +48,34 @@ const WordList = () => {
   };
 
   const copyToClipboard = (word) => {
-    var textField = document.createElement('textarea');
-    textField.innerText = word;
-    document.body.appendChild(textField);
-    textField.select();
-    document.execCommand('copy');
-    textField.remove();
+    if(navigator.clipboard) {
+      navigator.clipboard.writeText(word).then(() => {
+        console.log('Copied to clipboard');
+      }).catch(err => {
+        console.log('Failed to copy to clipboard', err);
+      })
+    }
   };
 
   const gotoMeaning = (word) => {
     window.open('//google.com/search?q=define ' + word, '_blank');
   };
+
+  const onPrev = () => {
+    const index = words.words[selectedGroup].findIndex((w) => w === selectedWord);
+    if (index-1 >= 0 && index-1 < words.words[selectedGroup].length) {
+      const newWord = words.words[selectedGroup][index-1];
+      navigate(`/${selectedGroup}/${newWord}`, {replace: true});
+    }
+  }
+
+  const onNext = () => {
+    const index = words.words[selectedGroup].findIndex((w) => w === selectedWord);
+    if (index+1 >= 0 && index+1 < words.words[selectedGroup].length) {
+      const newWord = words.words[selectedGroup][index+1];
+      navigate(`/${selectedGroup}/${newWord}`, { replace: true });
+    }
+  }
 
   return (
     <div className='pt-5'>
@@ -96,9 +122,23 @@ const WordList = () => {
               })}
             </div>
           )}
-
+          <hr />
           {selectedWord && (
             <div>
+              <div className='flex justify-center gap-2 pt-5'>
+              <button
+                  className='border-2 rounded-md border-black p-1 hover:bg-black hover:text-white'
+                  onClick={onPrev}
+                >
+                  &larr;prev
+                </button>
+                <button
+                  className='border-2 rounded-md border-black p-1 hover:bg-black hover:text-white'
+                  onClick={onNext}
+                >
+                  next&rarr;
+                </button>
+              </div>
               <div className='flex justify-center pt-10 pb-10 gap-2'>
                 <p className='text-5xl'>{selectedWord}</p>
               </div>
