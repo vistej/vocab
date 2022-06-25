@@ -8,7 +8,7 @@ const WordList = () => {
   const [meaning, setMeaning] = React.useState(null);
 
   React.useEffect(() => {
-    axios.get('/data/words.json').then((res) => {
+    axios.get('./data/words.json').then((res) => {
       setWords(res.data);
     });
   }, []);
@@ -19,7 +19,6 @@ const WordList = () => {
         .get(`https://api.dictionaryapi.dev/api/v2/entries/en/${selectedWord}`)
         .then((res) => {
           setMeaning(res.data[0]);
-          console.log(res.data[0]);
         });
     }
   }, [selectedWord]);
