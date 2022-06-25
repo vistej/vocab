@@ -65,7 +65,7 @@ const WordList = () => {
     const index = words.words[selectedGroup].findIndex((w) => w === selectedWord);
     if (index-1 >= 0 && index-1 < words.words[selectedGroup].length) {
       const newWord = words.words[selectedGroup][index-1];
-      navigate(`/${selectedGroup}/${newWord}`, {replace: true});
+      navigate(`/${selectedGroup}/${newWord.trim()}`, {replace: true});
     }
   }
 
@@ -73,7 +73,7 @@ const WordList = () => {
     const index = words.words[selectedGroup].findIndex((w) => w === selectedWord);
     if (index+1 >= 0 && index+1 < words.words[selectedGroup].length) {
       const newWord = words.words[selectedGroup][index+1];
-      navigate(`/${selectedGroup}/${newWord}`, { replace: true });
+      navigate(`/${selectedGroup}/${newWord.trim()}`, { replace: true });
     }
   }
 
