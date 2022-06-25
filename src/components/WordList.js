@@ -24,7 +24,7 @@ const WordList = () => {
   // }, [selectedWord]);
 
   const showMeaning = () => {
-    if (selectedWord) {
+    if (selectedWord && (!meaning || meaning.word !== selectedWord)) {
       axios
         .get(`https://api.dictionaryapi.dev/api/v2/entries/en/${selectedWord}`)
         .then((res) => {
