@@ -41,8 +41,8 @@ const WordList = () => {
 
   const onWordSelect = (word) => {
     setSelectedWord(word);
-    setMeaning(null)
-  }
+    setMeaning(null);
+  };
 
   const copyToClipboard = (word) => {
     var textField = document.createElement('textarea');
@@ -134,16 +134,18 @@ const WordList = () => {
             return (
               <div className='p-2' key={selectedWord + m.partOfSpeech}>
                 <p className='italic'>{m.partOfSpeech}</p>
-                {m.definitions.map((d, index) => {
-                  return (
-                    <div key={d.definition}>
-                      <p>&emsp;{index + 1 + '. ' + d.definition}</p>
-                    </div>
-                  );
-                })}
+                <div className='pl-4'>
+                  {m.definitions.map((d, index) => {
+                    return (
+                      <p key={d.definition}>
+                        {index + 1 + '. ' + d.definition}
+                      </p>
+                    );
+                  })}
+                </div>
                 {m.synonyms.length ? (
-                  <div className='flex justify-start flex-wrap pt-2 gap-2'>
-                    <p className='font-bold'>&emsp;synonyms: </p>
+                  <div className='pl-4 flex justify-start flex-wrap pt-2 gap-2'>
+                    <p className='font-bold'>synonyms: </p>
                     {m.synonyms.map((s) => {
                       return (
                         <p
@@ -159,8 +161,8 @@ const WordList = () => {
                   <></>
                 )}
                 {m.antonyms.length ? (
-                  <div className='flex justify-start flex-wrap pt-2 gap-2'>
-                    <p className='font-bold'>&emsp;antonyms: </p>
+                  <div className='pl-4 flex justify-start flex-wrap pt-2 gap-2'>
+                    <p className='font-bold'>antonyms: </p>
                     {m.antonyms.map((s) => {
                       return (
                         <p
