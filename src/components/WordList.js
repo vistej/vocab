@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useSwipeable } from 'react-swipeable';
 
 const WordList = () => {
   const [words, setWords] = React.useState();
@@ -10,6 +11,8 @@ const WordList = () => {
   const [isExpanded, setIsExpanded] = React.useState(true);
   const { group, word } = useParams();
   const navigate = useNavigate();
+  const handlers = useSwipeable({onSwipedLeft: () => onNext(), onSwipedRight: () => onPrev()});
+  
 
   React.useEffect(() => {
     if (group) {
@@ -31,10 +34,17 @@ const WordList = () => {
   }, []);
 
   document.onkeydown = (e) => {
-    if (e.key === 'ArrowLeft') {
-      onPrev();
-    } else if (e.key === 'ArrowRight') {
-      onNext();
+    switch (e.key) {
+      case 'ArrowLeft':
+        onPrev();
+        break;
+      case 'ArrowRight':
+        onNext();
+        break;
+      case 'Enter':
+        showMeaning();
+        break;
+      default: break;
     }
   };
 
@@ -86,15 +96,12 @@ const WordList = () => {
   };
 
   return (
-    <div className='pt-5'>
+    <div className='pt-5' {...handlers}>
       {words && (
         <>
           <div className='flex justify-between'>
             <p className='p-2 font-bold text-lg'>Groups</p>
-            <button
-              className='p-2'
-              onClick={() => setIsExpanded(!isExpanded)}
-            >
+            <button className='p-2' onClick={() => setIsExpanded(!isExpanded)}>
               {isExpanded ? 'minimize ▴' : 'expand ▾'}
             </button>
           </div>
