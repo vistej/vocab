@@ -96,7 +96,7 @@ const WordList = () => {
   };
 
   return (
-    <div className='pt-5' {...handlers}>
+    <div className='pt-5 h-screen' {...handlers}>
       {words && (
         <>
           <div className='flex justify-between'>
