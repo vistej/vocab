@@ -92,7 +92,7 @@ const WordList = () => {
           <div className='flex justify-between'>
             <p className='p-2 font-bold text-lg'>Groups</p>
             <button
-              className=''
+              className='p-2'
               onClick={() => setIsExpanded(!isExpanded)}
             >
               {isExpanded ? 'minimize ▴' : 'expand ▾'}
