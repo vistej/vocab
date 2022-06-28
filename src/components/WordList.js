@@ -78,6 +78,7 @@ const WordList = () => {
   const onPrev = () => {
     const index = Number(selectedWordIndex) - 1;
     if (index >= 0 && index < words.words[selectedGroup].length) {
+      setSelectedWordIndex(index);
       navigate(`/${selectedGroup}/${index}`, { replace: true });
     }
   };
@@ -85,6 +86,7 @@ const WordList = () => {
   const onNext = () => {
     const index = Number(selectedWordIndex) + 1;
     if (index >= 0 && index < words.words[selectedGroup].length) {
+      setSelectedWordIndex(index);
       navigate(`/${selectedGroup}/${index}`, { replace: true });
     }
   };
