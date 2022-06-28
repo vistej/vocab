@@ -7,7 +7,7 @@ function App() {
       <Routes>
         <Route path="/" element={<AllWords />} >
           <Route path=":group" element={<AllWords />} >
-            <Route path=":word" element={<AllWords />} />
+            <Route path=":wordIndex" element={<AllWords />} />
             </Route>
         </Route>
         <Route path="*" element={<Navigate to='/' replace />} />

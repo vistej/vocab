@@ -6,25 +6,25 @@ import { useSwipeable } from 'react-swipeable';
 const WordList = () => {
   const [words, setWords] = React.useState();
   const [selectedGroup, setSelectedGroup] = React.useState(null);
-  const [selectedWord, setSelectedWord] = React.useState(null);
+  const [selectedWordIndex, setSelectedWordIndex] = React.useState(null);
   const [meaning, setMeaning] = React.useState(null);
   const [isExpanded, setIsExpanded] = React.useState(true);
-  const { group, word } = useParams();
+  const { group, wordIndex } = useParams();
   const navigate = useNavigate();
-  const handlers = useSwipeable({onSwipedLeft: () => onNext(), onSwipedRight: () => onPrev()});
+  const handlers = useSwipeable({onSwipedLeft: () => onNext(), onSwipedRight: () => onPrev(), onSwipedUp: () => showMeaning()});
   
 
   React.useEffect(() => {
     if (group) {
       setSelectedGroup(group);
-      setSelectedWord(null);
+      setSelectedWordIndex(null);
       setMeaning(null);
     }
-    if (word) {
-      setSelectedWord(word);
+    if (wordIndex) {
+      setSelectedWordIndex(wordIndex);
       setMeaning(null);
     }
-  }, [group, word]);
+  }, [group, wordIndex]);
 
   React.useEffect(() => {
     const url = `${window.location.origin}/vocab/data/words.json`;
@@ -49,9 +49,9 @@ const WordList = () => {
   };
 
   const showMeaning = () => {
-    if (selectedWord && (!meaning || meaning.word !== selectedWord)) {
+    if (words.words[selectedGroup][selectedWordIndex] && (!meaning || meaning.word !== words.words[selectedGroup][selectedWordIndex])) {
       axios
-        .get(`https://api.dictionaryapi.dev/api/v2/entries/en/${selectedWord}`)
+        .get(`https://api.dictionaryapi.dev/api/v2/entries/en/${words.words[selectedGroup][selectedWordIndex]}`)
         .then((res) => {
           setMeaning(res.data[0]);
         });
@@ -76,22 +76,16 @@ const WordList = () => {
   };
 
   const onPrev = () => {
-    const index = words.words[selectedGroup].findIndex(
-      (w) => w === selectedWord
-    );
-    if (index - 1 >= 0 && index - 1 < words.words[selectedGroup].length) {
-      const newWord = words.words[selectedGroup][index - 1];
-      navigate(`/${selectedGroup}/${newWord.trim()}`, { replace: true });
+    const index = Number(selectedWordIndex) - 1;
+    if (index >= 0 && index < words.words[selectedGroup].length) {
+      navigate(`/${selectedGroup}/${index}`, { replace: true });
     }
   };
 
   const onNext = () => {
-    const index = words.words[selectedGroup].findIndex(
-      (w) => w === selectedWord
-    );
-    if (index + 1 >= 0 && index + 1 < words.words[selectedGroup].length) {
-      const newWord = words.words[selectedGroup][index + 1];
-      navigate(`/${selectedGroup}/${newWord.trim()}`, { replace: true });
+    const index = Number(selectedWordIndex) + 1;
+    if (index >= 0 && index < words.words[selectedGroup].length) {
+      navigate(`/${selectedGroup}/${index}`, { replace: true });
     }
   };
 
@@ -131,14 +125,14 @@ const WordList = () => {
               {selectedGroup && <p className='p-2 font-bold text-lg'>Words</p>}
               {selectedGroup && (
                 <div className='flex justify-start flex-wrap gap-1 p-2'>
-                  {words.words[selectedGroup].map((word) => {
+                  {words.words[selectedGroup].map((word, index) => {
                     return (
                       <span key={word}>
-                        <Link to={selectedGroup + '/' + word}>
+                        <Link to={selectedGroup + '/' + index}>
                           <button
                             className={
                               'border-2 rounded-md border-black p-1 hover:bg-black hover:text-white' +
-                              (word === selectedWord
+                              (word === words.words[selectedGroup][selectedWordIndex]
                                 ? ' bg-black text-white'
                                 : '')
                             }
@@ -154,7 +148,7 @@ const WordList = () => {
             </>
           )}
           <hr />
-          {selectedWord && (
+          {words.words[selectedGroup][selectedWordIndex] && (
             <div>
               <div className='flex justify-center gap-2 pt-5'>
                 <button
@@ -171,12 +165,12 @@ const WordList = () => {
                 </button>
               </div>
               <div className='flex justify-center pt-10 pb-10 gap-2'>
-                <p className='text-5xl'>{selectedWord}</p>
+                <p className='text-5xl'>{words.words[selectedGroup][selectedWordIndex]}</p>
               </div>
               <div className='flex justify-center gap-2'>
                 <button
                   className='border-2 rounded-md border-black p-1 hover:bg-black hover:text-white'
-                  onClick={() => copyToClipboard(selectedWord)}
+                  onClick={() => copyToClipboard(words.words[selectedGroup][selectedWordIndex])}
                 >
                   copy
                 </button>
@@ -188,9 +182,9 @@ const WordList = () => {
                 </button>
                 <button
                   className='border-2 rounded-md border-black p-1 hover:bg-black hover:text-white'
-                  onClick={() => gotoMeaning(selectedWord)}
+                  onClick={() => gotoMeaning(words.words[selectedGroup][selectedWordIndex])}
                 >
-                  Google dictionary &#x2197;
+                  Google dictionary ↗
                 </button>
               </div>
             </div>
@@ -200,7 +194,7 @@ const WordList = () => {
             <div className='pt-5'>
               {meaning.meanings.map((m) => {
                 return (
-                  <div className='p-2' key={selectedWord + m.partOfSpeech}>
+                  <div className='p-2' key={selectedWordIndex + m.partOfSpeech}>
                     <p className='italic font-bold'>{m.partOfSpeech}</p>
                     <div className='pl-4'>
                       {m.definitions.map((d, index) => {
