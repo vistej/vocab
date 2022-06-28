@@ -148,7 +148,7 @@ const WordList = () => {
             </>
           )}
           <hr />
-          {words.words[selectedGroup][selectedWordIndex] && (
+          {words && selectedGroup && words.words[selectedGroup][selectedWordIndex] && (
             <div>
               <div className='flex justify-center gap-2 pt-5'>
                 <button

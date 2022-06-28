@@ -2,6 +2,8 @@
 
 words with meanings and stuff.
 
+App Link: [Vocab](https://vistej.github.io/vocab/)
+
 ## web
 
 1. shortcuts available:
@@ -12,3 +14,4 @@ words with meanings and stuff.
 
 1. shortcuts available:
    1. swipe left and right to move between words
+   2. swipe up to get the meaning
