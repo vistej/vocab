@@ -1,4 +1,5 @@
 const Footer = () => {
+  // TODO Fix footer in mobile view.
   return (
     <div className='fixed bottom-0 w-full bg-white shadow-md p-4'>
       <div className='flex justify-center'>

@@ -1,15 +1,10 @@
-import { useNavigate } from 'react-router-dom';
-
 const GroupBar = ({
   words,
   groupIndex,
   wordIndex,
-  setGroupIndex,
-  setWordIndex,
-  setMeaning,
+  onSelectWord,
+  onSelectGroup,
 }) => {
-  const navigate = useNavigate();
-
   return (
     <>
       <div className='flex justify-start flex-wrap gap-1 p-2'>
@@ -21,12 +16,7 @@ const GroupBar = ({
                   'border-2 rounded-md border-black p-1 hover:bg-black hover:text-white' +
                   (group === groupIndex ? ' bg-black text-white' : '')
                 }
-                onClick={() => {
-                  setGroupIndex(group);
-                  setWordIndex('0');
-                  setMeaning('');
-                  navigate(`/${group}`);
-                }}
+                onClick={() => onSelectGroup(group)}
               >
                 {group.split('_').join(' ')}
               </button>
@@ -47,13 +37,7 @@ const GroupBar = ({
                       ? ' bg-black text-white'
                       : '')
                   }
-                  onClick={() => {
-                    if (index !== Number(wordIndex)) {
-                      setWordIndex(index);
-                      setMeaning('');
-                      navigate(`/${groupIndex}/${index}`);
-                    }
-                  }}
+                  onClick={() => onSelectWord(index)}
                 >
                   {word}
                 </button>

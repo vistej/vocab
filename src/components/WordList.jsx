@@ -21,7 +21,7 @@ const WordList = () => {
   });
 
   React.useEffect(() => {
-    const url = `${window.location.origin}/vocab/data/words.json`;
+    const url = `${window.location.origin}/data/words.json`;
     axios.get(url).then((res) => {
       setWords(res.data);
     });
@@ -42,26 +42,41 @@ const WordList = () => {
     }
   };
 
-  const onPrev = () => {
-    const index = Number(wordIndex) - 1;
-    if (index >= 0 && index < words.words[groupIndex].length) {
+  const onSelectWord = (index) => {
+    if (
+      index >= 0 &&
+      index < words.words[groupIndex].length &&
+      index !== Number(wordIndex)
+    ) {
       setWordIndex(index);
+      setMeaning('');
       navigate(`/${groupIndex}/${index}`, { replace: true });
     }
   };
 
+  const onSelectGroup = (group) => {
+    const wordIndex = '0';
+    setWordIndex(wordIndex);
+    setGroupIndex(group);
+    setMeaning('');
+    navigate(`/${group}/${wordIndex}`, { replace: true });
+  };
+
+  const onPrev = () => {
+    const index = Number(wordIndex) - 1;
+    onSelectWord(index);
+  };
+
   const onNext = () => {
     const index = Number(wordIndex) + 1;
-    if (index >= 0 && index < words.words[groupIndex].length) {
-      setWordIndex(index);
-      navigate(`/${groupIndex}/${index}`, { replace: true });
-    }
+    onSelectWord(index);
   };
 
   return (
     <div className='pt-5 h-full' {...handlers}>
       {words && (
         <>
+          {/* TODO Move this to GroupBar */}
           <div className='flex justify-between'>
             <p className='p-2 font-bold text-lg'>Groups</p>
             <button className='p-2' onClick={() => setIsExpanded(!isExpanded)}>
@@ -73,9 +88,8 @@ const WordList = () => {
               words={words}
               groupIndex={groupIndex}
               wordIndex={wordIndex}
-              setGroupIndex={setGroupIndex}
-              setWordIndex={setWordIndex}
-              setMeaning={setMeaning}
+              onSelectWord={onSelectWord}
+              onSelectGroup={onSelectGroup}
             />
           )}
           <hr />
