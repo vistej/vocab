@@ -5,6 +5,7 @@ import { useSwipeable } from 'react-swipeable';
 import WordMeaning from './WordMeaning';
 import WordBar from './WordBar';
 import GroupBar from './GroupBar';
+import { useQuery } from '@tanstack/react-query';
 
 const WordList = () => {
   const { pgi, pwi } = useParams();
@@ -17,7 +18,7 @@ const WordList = () => {
   const handlers = useSwipeable({
     onSwipedLeft: () => onNext(),
     onSwipedRight: () => onPrev(),
-    onSwipedUp: () => getMeaning(),
+    onSwipedUp: () => fetchMeaning(),
   });
 
   React.useEffect(() => {
@@ -27,20 +28,23 @@ const WordList = () => {
     });
   }, []);
 
-  const getMeaning = () => {
-    if (
-      words.words[groupIndex][wordIndex] &&
-      (!meaning || meaning.word !== words.words[groupIndex][wordIndex])
-    ) {
-      axios
-        .get(
-          `https://api.dictionaryapi.dev/api/v2/entries/en/${words.words[groupIndex][wordIndex]}`
-        )
-        .then((res) => {
-          setMeaning(res.data[0]);
-        });
-    }
+  const getMeaning = async () => {
+    const { data } = await axios.get(
+      `https://api.dictionaryapi.dev/api/v2/entries/en/${words.words[groupIndex][wordIndex]}`
+    );
+    setMeaning(data[0]);
+    return data[0];
   };
+
+  const {
+    isLoading,
+    refetch: fetchMeaning,
+    isFetching,
+  } = useQuery({
+    queryKey: ['meaning', groupIndex, wordIndex],
+    queryFn: getMeaning,
+    enabled: false,
+  });
 
   const onSelectWord = (index) => {
     if (
@@ -103,11 +107,13 @@ const WordList = () => {
               words={words}
               groupIndex={groupIndex}
               wordIndex={wordIndex}
-              getMeaning={getMeaning}
+              getMeaning={fetchMeaning}
               onPrev={onPrev}
               onNext={onNext}
             />
           )}
+
+          {(isLoading || isFetching) && <div>Loading....</div>}
 
           {meaning && <WordMeaning meaning={meaning} />}
         </>

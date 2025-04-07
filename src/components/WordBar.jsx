@@ -6,7 +6,8 @@ const WordBar = ({
   onPrev,
   onNext,
 }) => {
-  const copyToClipboard = (word) => {
+  const copyToClipboard = () => {
+    const word = words.words[groupIndex][wordIndex];
     if (navigator.clipboard) {
       navigator.clipboard
         .writeText(word)
@@ -19,11 +20,13 @@ const WordBar = ({
     }
   };
 
-  const gotoMeaning = (word) => {
+  const gotoMeaning = () => {
+    const word = words.words[groupIndex][wordIndex];
     window.open('//google.com/search?q=define ' + word, '_blank');
   };
 
   document.onkeydown = (e) => {
+    console.log(e.key);
     switch (e.key) {
       case 'ArrowLeft':
         onPrev();
@@ -33,6 +36,12 @@ const WordBar = ({
         break;
       case 'Enter':
         getMeaning();
+        break;
+      case 'g':
+        gotoMeaning();
+        break;
+      case 'c':
+        copyToClipboard();
         break;
       default:
         break;
@@ -61,7 +70,7 @@ const WordBar = ({
       <div className='flex justify-center gap-2'>
         <button
           className='border-2 rounded-md border-black p-1 hover:bg-black hover:text-white'
-          onClick={() => copyToClipboard(words.words[groupIndex][wordIndex])}
+          onClick={() => copyToClipboard()}
         >
           copy
         </button>
@@ -73,7 +82,7 @@ const WordBar = ({
         </button>
         <button
           className='border-2 rounded-md border-black p-1 hover:bg-black hover:text-white'
-          onClick={() => gotoMeaning(words.words[groupIndex][wordIndex])}
+          onClick={() => gotoMeaning()}
         >
           Google dictionary ↗
         </button>
