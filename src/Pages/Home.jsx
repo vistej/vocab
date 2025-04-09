@@ -4,7 +4,7 @@ import WordList from '../components/WordList';
 
 const Home = () => {
   return (
-    <div className='container mx-auto h-screen'>
+    <div className='h-screen'>
       <Header />
       <WordList />
       <Footer />

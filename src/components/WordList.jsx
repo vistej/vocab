@@ -6,6 +6,7 @@ import WordMeaning from './WordMeaning';
 import WordBar from './WordBar';
 import GroupBar from './GroupBar';
 import { useQuery } from '@tanstack/react-query';
+import WordProgress from './WordProgress';
 
 const WordList = () => {
   const { pgi, pwi } = useParams();
@@ -77,13 +78,25 @@ const WordList = () => {
   };
 
   return (
-    <div className='pt-5 h-full' {...handlers}>
+    <div className='container mx-auto  py-16' {...handlers}>
       {words && (
         <>
-          {/* TODO Move this to GroupBar */}
           <div className='flex justify-between'>
-            <p className='p-2 font-bold text-lg'>Groups</p>
-            <button className='p-2' onClick={() => setIsExpanded(!isExpanded)}>
+            {isExpanded ? (
+              <p className='p-2 font-bold text-lg'>Groups</p>
+            ) : (
+              <WordProgress
+                words={words}
+                wordIndex={wordIndex}
+                groupIndex={groupIndex}
+              />
+            )}
+
+            <button
+              className='p-2'
+              disabled={!groupIndex}
+              onClick={() => setIsExpanded(!isExpanded)}
+            >
               {isExpanded ? 'minimize ▴' : 'expand ▾'}
             </button>
           </div>
@@ -96,7 +109,7 @@ const WordList = () => {
               onSelectGroup={onSelectGroup}
             />
           )}
-          <hr />
+          <div className='border-b-2 border-black w-full' />
           {!groupIndex && (
             <div className='flex justify-center items-center'>
               <p className='text-2xl'>Select a group to start!</p>

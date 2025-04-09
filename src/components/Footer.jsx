@@ -1,8 +1,7 @@
 const Footer = () => {
-  // TODO Fix footer in mobile view.
   return (
-    <div className='fixed bottom-0 w-full bg-white shadow-md p-4'>
-      <div className='flex justify-center'>
+    <div className='fixed bottom-0 w-full bg-white shadow-md p-4 border-t-2 h-16'>
+      <div className='flex flex-col md:flex-row items-center justify-center gap-2 md:gap-6 text-center text-sm'>
         <p>
           Made with{' '}
           <a
@@ -12,8 +11,8 @@ const Footer = () => {
             className='font-semibold text-blue-500 hover:underline'
           >
             React
-          </a>
-          {' + '}
+          </a>{' '}
+          +{' '}
           <a
             href='https://vite.dev'
             target='_blank'
@@ -22,9 +21,7 @@ const Footer = () => {
           >
             Vite
           </a>
-          .
         </p>
-
         <p>
           © {new Date().getFullYear()} Vocab by{' '}
           <a
@@ -35,7 +32,6 @@ const Footer = () => {
           >
             vistej
           </a>
-          .
         </p>
       </div>
     </div>

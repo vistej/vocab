@@ -26,7 +26,6 @@ const WordBar = ({
   };
 
   document.onkeydown = (e) => {
-    console.log(e.key);
     switch (e.key) {
       case 'ArrowLeft':
         onPrev();
