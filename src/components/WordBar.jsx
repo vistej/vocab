@@ -1,3 +1,5 @@
+import { toast } from 'sonner';
+
 const WordBar = ({
   groupIndex,
   wordIndex,
@@ -12,10 +14,11 @@ const WordBar = ({
       navigator.clipboard
         .writeText(word)
         .then(() => {
-          console.log('Copied to clipboard');
+          toast.success('Copied to clipboard.');
         })
         .catch((err) => {
           console.log('Failed to copy to clipboard', err);
+          toast.error('Failed to copy');
         });
     }
   };
