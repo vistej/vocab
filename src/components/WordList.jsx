@@ -80,7 +80,10 @@ const WordList = () => {
   };
 
   return (
-    <div className='container mx-auto py-16 text-brand-text' {...handlers}>
+    <div
+      className='container h-full mx-auto py-16 text-brand-text'
+      {...handlers}
+    >
       {words && (
         <>
           {/* Header section */}

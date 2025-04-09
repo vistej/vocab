@@ -18,7 +18,7 @@ function App() {
     }
   }, [isOnline]);
   return (
-    <div className='min-h-screen bg-brand-screen text-brand-text'>
+    <div className='bg-brand-screen text-brand-text'>
       <Toaster richColors theme={theme} position='bottom-center' closeButton />
       {/* Routes */}
       <Routes>
