@@ -1,6 +1,8 @@
+import ProgressBar from './ProgressBar';
+
 const WordProgress = ({ words, groupIndex, wordIndex }) => {
   return (
-    <div className='px-4 py-2 border-b flex items-center justify-between gap-4'>
+    <div className='px-4 py-2 flex items-center justify-between gap-4'>
       {/* Progress section */}
       <div className='flex  md:items-center gap-8 w-full'>
         {/* Group progress */}
@@ -9,8 +11,7 @@ const WordProgress = ({ words, groupIndex, wordIndex }) => {
             Group {groupIndex.split('_')[1]} of{' '}
             {Object.keys(words.words).length}
           </span>
-          <progress
-            className='w-full h-2 accent-blue-500 rounded'
+          <ProgressBar
             value={Number(groupIndex.split('_')[1])}
             max={Object.keys(words.words).length}
           />
@@ -21,8 +22,7 @@ const WordProgress = ({ words, groupIndex, wordIndex }) => {
           <span className='text-sm font-semibold whitespace-nowrap'>
             Word {Number(wordIndex) + 1} of {words.words[groupIndex].length}
           </span>
-          <progress
-            className='w-full h-2 accent-black-500 rounded'
+          <ProgressBar
             value={Number(wordIndex) + 1}
             max={words.words[groupIndex].length}
           />

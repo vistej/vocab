@@ -7,6 +7,8 @@ import WordBar from './WordBar';
 import GroupBar from './GroupBar';
 import { useQuery } from '@tanstack/react-query';
 import WordProgress from './WordProgress';
+import { ChevronUp } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 
 const WordList = () => {
   const { pgi, pwi } = useParams();
@@ -78,12 +80,13 @@ const WordList = () => {
   };
 
   return (
-    <div className='container mx-auto  py-16' {...handlers}>
+    <div className='container mx-auto py-16 text-brand-text' {...handlers}>
       {words && (
         <>
-          <div className='flex justify-between'>
+          {/* Header section */}
+          <div className='flex justify-between items-center mb-4'>
             {isExpanded ? (
-              <p className='p-2 font-bold text-lg'>Groups</p>
+              <p className='p-2 font-bold text-lg text-brand-text'>Groups</p>
             ) : (
               <WordProgress
                 words={words}
@@ -93,13 +96,23 @@ const WordList = () => {
             )}
 
             <button
-              className='p-2'
+              className='btn-toggle flex items-center gap-1'
               disabled={!groupIndex}
               onClick={() => setIsExpanded(!isExpanded)}
             >
-              {isExpanded ? 'minimize ▴' : 'expand ▾'}
+              {isExpanded ? (
+                <>
+                  Minimize <ChevronUp className='w-4 h-4' />
+                </>
+              ) : (
+                <>
+                  Expand <ChevronDown className='w-4 h-4' />
+                </>
+              )}
             </button>
           </div>
+
+          {/* Group bar */}
           {isExpanded && (
             <GroupBar
               words={words}
@@ -109,12 +122,18 @@ const WordList = () => {
               onSelectGroup={onSelectGroup}
             />
           )}
-          <div className='border-b-2 border-black w-full' />
+
+          {/* Divider */}
+          <div className='border-b border-brand-text dark:border-zinc-700 my-4' />
+
+          {/* Prompt to select a group */}
           {!groupIndex && (
-            <div className='flex justify-center items-center'>
-              <p className='text-2xl'>Select a group to start!</p>
+            <div className='flex justify-center items-center h-32'>
+              <p className='text-xl font-semibold'>Select a group to start!</p>
             </div>
           )}
+
+          {/* Word view */}
           {words && groupIndex && words.words[groupIndex][wordIndex] && (
             <WordBar
               words={words}
@@ -126,8 +145,14 @@ const WordList = () => {
             />
           )}
 
-          {(isLoading || isFetching) && <div>Loading....</div>}
+          {/* Loading state */}
+          {(isLoading || isFetching) && (
+            <div className='text-center py-4 text-sm text-zinc-400'>
+              Loading...
+            </div>
+          )}
 
+          {/* Word meaning */}
           {meaning && <WordMeaning meaning={meaning} />}
         </>
       )}

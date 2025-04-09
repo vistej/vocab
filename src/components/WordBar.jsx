@@ -1,3 +1,8 @@
+import { ChevronRight } from 'lucide-react';
+import { ClipboardCopy } from 'lucide-react';
+import { BookOpenText } from 'lucide-react';
+import { Globe } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { toast } from 'sonner';
 
 const WordBar = ({
@@ -51,42 +56,42 @@ const WordBar = ({
   };
 
   return (
-    <div>
-      <div className='flex justify-center gap-2 pt-5'>
-        <button
-          className='border-2 rounded-md border-black p-1 hover:bg-black hover:text-white'
-          onClick={onPrev}
-        >
-          ◂ prev
+    <div className='text-brand-text'>
+      {/* Navigation Buttons */}
+      <div className='flex justify-center gap-3 pt-6'>
+        <button className='btn flex items-center gap-2"' onClick={onPrev}>
+          <ChevronLeft className='w-4 h-4' /> Prev
         </button>
-        <button
-          className='border-2 rounded-md border-black p-1 hover:bg-black hover:text-white'
-          onClick={onNext}
-        >
-          next ▸
+        <button className='btn flex items-center gap-2"' onClick={onNext}>
+          Next <ChevronRight className='w-4 h-4' />
         </button>
       </div>
-      <div className='flex justify-center pt-10 pb-10 gap-2'>
-        <p className='text-5xl'>{words.words[groupIndex][wordIndex]}</p>
+
+      {/* Word Display */}
+      <div className='flex justify-center pt-12 pb-10'>
+        <p className='text-5xl font-semibold'>
+          {words.words[groupIndex][wordIndex]}
+        </p>
       </div>
-      <div className='flex justify-center gap-2'>
+
+      {/* Action Buttons */}
+      <div className='flex justify-center flex-wrap gap-3'>
         <button
-          className='border-2 rounded-md border-black p-1 hover:bg-black hover:text-white'
-          onClick={() => copyToClipboard()}
+          className='btn flex items-center gap-2'
+          onClick={copyToClipboard}
         >
-          copy
+          <ClipboardCopy className='w-4 h-4' />
+          Copy
         </button>
-        <button
-          className='border-2 rounded-md border-black p-1 hover:bg-black hover:text-white'
-          onClick={getMeaning}
-        >
-          show meaning
+
+        <button className='btn flex items-center gap-2' onClick={getMeaning}>
+          <BookOpenText className='w-4 h-4' />
+          Show Meaning
         </button>
-        <button
-          className='border-2 rounded-md border-black p-1 hover:bg-black hover:text-white'
-          onClick={() => gotoMeaning()}
-        >
-          Google dictionary ↗
+
+        <button className='btn flex items-center gap-2' onClick={gotoMeaning}>
+          Google
+          <Globe className='w-4 h-4' />
         </button>
       </div>
     </div>

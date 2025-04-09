@@ -1,3 +1,44 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html, body, #root {
+  min-height: 100%;
+  background-color: var(--brand-screen);
+}
+
+:root {
+  --brand-text: #000000;
+  --brand-hover: #000000;
+  --brand-dark-hover: #facc15;
+
+  --brand-bg: #ffffff;
+  --brand-screen: #ffffff;
+  --brand-header: #f9f9f9;
+  --brand-footer: #f9f9f9;
+}
+
+.dark {
+  --brand-text: #ffffff;
+  --brand-hover: #facc15;
+  --brand-dark-hover: #000000;
+
+  --brand-bg: #18181b;
+  --brand-screen: #18181b;
+  --brand-header: #1f1f23;
+  --brand-footer: #1f1f23;
+}
+
+.btn {
+  @apply px-4 py-1 rounded border text-sm font-medium
+  border-black text-black hover:bg-black hover:text-white
+  transition-colors dark:border-zinc-600 dark:text-white dark:bg-black
+  dark:hover:bg-yellow-400 dark:hover:text-black dark:hover:border-yellow-400;
+}
+
+.btn-toggle {
+  @apply p-2 text-sm font-medium text-brand-text
+         hover:underline disabled:opacity-50
+         transition-colors flex items-center gap-1;
+}
+

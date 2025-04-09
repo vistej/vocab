@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
-    <div className='fixed bottom-0 w-full bg-white shadow-md p-4 border-t-2 h-16'>
-      <div className='flex flex-col md:flex-row items-center justify-center gap-2 md:gap-6 text-center text-sm'>
+    <div className='bg-brand-footer fixed bottom-0 w-full shadow-md p-4 border-t border-brand-text dark:border-zinc-700 h-16'>
+      <div className='flex flex-col md:flex-row items-center justify-center gap-2 md:gap-6 text-center text-sm text-brand-text dark:text-white'>
         <p>
           Made with{' '}
           <a
@@ -26,9 +26,9 @@ const Footer = () => {
           © {new Date().getFullYear()} Vocab by{' '}
           <a
             href='https://github.com/vistej'
-            className='text-blue-500 hover:underline font-medium'
             target='_blank'
             rel='noopener noreferrer'
+            className='text-blue-500 hover:underline font-medium'
           >
             vistej
           </a>

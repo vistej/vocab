@@ -3,9 +3,11 @@ import Home from './Pages/Home';
 import { toast, Toaster } from 'sonner';
 import { useNetworkStatus } from './utils/network';
 import { useEffect } from 'react';
+import { useTheme } from './context/ThemeContext';
 
 function App() {
   const isOnline = useNetworkStatus();
+  const { theme } = useTheme();
 
   useEffect(() => {
     toast.dismiss();
@@ -16,13 +18,13 @@ function App() {
     }
   }, [isOnline]);
   return (
-    <div>
-      <Toaster richColors position='bottom-center' />
+    <div className='min-h-screen bg-brand-screen text-brand-text'>
+      <Toaster richColors theme={theme} position='bottom-center' closeButton />
+      {/* Routes */}
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/:pgi' element={<Home />} />
         <Route path='/:pgi/:pwi' element={<Home />} />
-
         <Route path='*' element={<Navigate to='/' replace />} />
       </Routes>
     </div>

@@ -7,44 +7,45 @@ const GroupBar = ({
 }) => {
   return (
     <>
-      <div className='flex justify-start flex-wrap gap-1 p-2'>
-        {Object.keys(words.words).map((group) => {
-          return (
-            <span key={group}>
-              <button
-                className={
-                  'border-2 rounded-md border-black p-1 hover:bg-black hover:text-white' +
-                  (group === groupIndex ? ' bg-black text-white' : '')
-                }
-                onClick={() => onSelectGroup(group)}
-              >
-                {group.split('_').join(' ')}
-              </button>
-            </span>
-          );
-        })}
+      {/* Group buttons */}
+      <div className='flex justify-start flex-wrap gap-2 p-2'>
+        {Object.keys(words.words).map((group) => (
+          <button
+            key={group}
+            className={`px-3 py-1 rounded border text-sm font-medium transition-colors
+              ${
+                group === groupIndex
+                  ? 'bg-black text-white dark:bg-yellow-400 dark:text-black'
+                  : 'btn'
+              }`}
+            onClick={() => onSelectGroup(group)}
+          >
+            {group.split('_').join(' ')}
+          </button>
+        ))}
       </div>
-      {groupIndex && <p className='p-2 font-bold text-lg'>Words</p>}
+
+      {/* Word buttons */}
       {groupIndex && (
-        <div className='flex justify-start flex-wrap gap-1 p-2'>
-          {words.words[groupIndex].map((word, index) => {
-            return (
-              <span key={word}>
-                <button
-                  className={
-                    'border-2 rounded-md border-black p-1 hover:bg-black hover:text-white' +
-                    (word === words.words[groupIndex][wordIndex]
-                      ? ' bg-black text-white'
-                      : '')
-                  }
-                  onClick={() => onSelectWord(index)}
-                >
-                  {word}
-                </button>
-              </span>
-            );
-          })}
-        </div>
+        <>
+          <p className='p-2 font-bold text-lg text-brand-text'>Words</p>
+          <div className='flex justify-start flex-wrap gap-2 p-2'>
+            {words.words[groupIndex].map((word, index) => (
+              <button
+                key={word}
+                className={`px-3 py-1 rounded border text-sm font-medium transition-colors
+                  ${
+                    index === Number(wordIndex)
+                      ? 'bg-black text-white dark:bg-yellow-400 dark:text-black'
+                      : 'btn'
+                  }`}
+                onClick={() => onSelectWord(index)}
+              >
+                {word}
+              </button>
+            ))}
+          </div>
+        </>
       )}
     </>
   );
