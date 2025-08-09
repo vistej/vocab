@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import WordProgress from './WordProgress';
 import { ChevronUp } from 'lucide-react';
 import { ChevronDown } from 'lucide-react';
+import { toast } from 'sonner';
 
 const WordList = () => {
   const { pgi, pwi } = useParams();
@@ -79,6 +80,50 @@ const WordList = () => {
     onSelectWord(index);
   };
 
+  const onExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  const copyToClipboard = () => {
+    const word = words.words[groupIndex][wordIndex];
+    if (navigator.clipboard) {
+      navigator.clipboard
+        .writeText(word)
+        .then(() => {
+          toast.success('Copied to clipboard.');
+        })
+        .catch((err) => {
+          console.log('Failed to copy to clipboard', err);
+          toast.error('Failed to copy');
+        });
+    }
+  };
+
+  document.onkeydown = (e) => {
+    switch (e.key) {
+      case 'ArrowLeft':
+        onPrev();
+        break;
+      case 'ArrowRight':
+        onNext();
+        break;
+      case 'Enter':
+        getMeaning();
+        break;
+      case 'g':
+        gotoMeaning();
+        break;
+      case 'c':
+        copyToClipboard();
+        break;
+      case 'e':
+        onExpand();
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <div
       className='container h-full mx-auto py-16 text-brand-text'
@@ -101,7 +146,7 @@ const WordList = () => {
             <button
               className='btn-toggle flex items-center gap-1'
               disabled={!groupIndex}
-              onClick={() => setIsExpanded(!isExpanded)}
+              onClick={onExpand}
             >
               {isExpanded ? (
                 <>
@@ -145,6 +190,7 @@ const WordList = () => {
               getMeaning={fetchMeaning}
               onPrev={onPrev}
               onNext={onNext}
+              copyToClipboard={copyToClipboard}
             />
           )}
 

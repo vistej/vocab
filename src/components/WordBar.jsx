@@ -1,9 +1,10 @@
 import { ChevronRight } from 'lucide-react';
 import { ClipboardCopy } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { BookOpenText } from 'lucide-react';
 import { Globe } from 'lucide-react';
 import { ChevronLeft } from 'lucide-react';
-import { toast } from 'sonner';
+import { useState } from 'react';
 
 const WordBar = ({
   groupIndex,
@@ -12,48 +13,19 @@ const WordBar = ({
   getMeaning,
   onPrev,
   onNext,
+  copyToClipboard,
 }) => {
-  const copyToClipboard = () => {
-    const word = words.words[groupIndex][wordIndex];
-    if (navigator.clipboard) {
-      navigator.clipboard
-        .writeText(word)
-        .then(() => {
-          toast.success('Copied to clipboard.');
-        })
-        .catch((err) => {
-          console.log('Failed to copy to clipboard', err);
-          toast.error('Failed to copy');
-        });
-    }
-  };
-
   const gotoMeaning = () => {
     const word = words.words[groupIndex][wordIndex];
     window.open('//google.com/search?q=define ' + word, '_blank');
   };
 
-  document.onkeydown = (e) => {
-    switch (e.key) {
-      case 'ArrowLeft':
-        onPrev();
-        break;
-      case 'ArrowRight':
-        onNext();
-        break;
-      case 'Enter':
-        getMeaning();
-        break;
-      case 'g':
-        gotoMeaning();
-        break;
-      case 'c':
-        copyToClipboard();
-        break;
-      default:
-        break;
-    }
-  };
+  // TODO add functionality later.
+  const [reviewed, setReviewed] = useState(false);
+
+  const addToReview = () => {
+    
+  }
 
   return (
     <div className='text-brand-text'>
@@ -92,6 +64,17 @@ const WordBar = ({
         <button className='btn flex items-center gap-2' onClick={gotoMeaning}>
           Google
           <Globe className='w-4 h-4' />
+        </button>
+        <button
+          className='btn flex items-center gap-2'
+          onClick={() => setReviewed(!reviewed)}
+        >
+          <Star
+            className={`w-4 h-4${
+              reviewed ? 'text-yellow-400 fill-yellow-400' : 'text-zinc-400'
+            }`}
+          />
+          Review
         </button>
       </div>
     </div>
