@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Home from './Pages/Home';
+import WordListPage from './Pages/WordListPage';
 import { toast, Toaster } from 'sonner';
 import { useNetworkStatus } from './utils/network';
 import { useEffect, useRef } from 'react';
@@ -28,8 +29,8 @@ function App() {
       {/* Routes */}
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/:pgi' element={<Home />} />
-        <Route path='/:pgi/:pwi' element={<Home />} />
+        <Route path='/:pgi' element={<WordListPage />} />
+        <Route path='/:pgi/:pwi' element={<WordListPage />} />
         <Route path='*' element={<Navigate to='/' replace />} />
       </Routes>
     </div>
