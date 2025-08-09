@@ -2,7 +2,7 @@ import React from 'react';
 
 const WordMeaning = ({ meaning }) => {
   return (
-    <div className='pt-6 text-brand-text'>
+    <div className='pt-6 text-brand-text meaning-container'>
       {meaning.meanings.map((m) => (
         <div
           className='px-4 py-3 border-b border-zinc-200 dark:border-zinc-700'

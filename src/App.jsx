@@ -2,20 +2,25 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import Home from './Pages/Home';
 import { toast, Toaster } from 'sonner';
 import { useNetworkStatus } from './utils/network';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTheme } from './context/ThemeContext';
 
 function App() {
   const isOnline = useNetworkStatus();
   const { theme } = useTheme();
+  const prevOnlineStatus = useRef(isOnline);
 
   useEffect(() => {
-    toast.dismiss();
-    if (isOnline) {
-      toast.success('You are back online!');
-    } else {
-      toast.warning('You are offline');
+    // Only show toast on status change, not on initial load
+    if (prevOnlineStatus.current !== undefined) {
+      toast.dismiss();
+      if (isOnline && !prevOnlineStatus.current) {
+        toast.success('You are back online!');
+      } else if (!isOnline) {
+        toast.warning('You are offline');
+      }
     }
+    prevOnlineStatus.current = isOnline;
   }, [isOnline]);
   return (
     <div className='bg-brand-screen text-brand-text'>

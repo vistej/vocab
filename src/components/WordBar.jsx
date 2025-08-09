@@ -23,24 +23,22 @@ const WordBar = ({
   // TODO add functionality later.
   const [reviewed, setReviewed] = useState(false);
 
-  const addToReview = () => {
-    
-  }
+  const addToReview = () => {};
 
   return (
     <div className='text-brand-text'>
       {/* Navigation Buttons */}
       <div className='flex justify-center gap-3 pt-6'>
-        <button className='btn flex items-center gap-2"' onClick={onPrev}>
+        <button className='btn flex items-center gap-2' onClick={onPrev}>
           <ChevronLeft className='w-4 h-4' /> Prev
         </button>
-        <button className='btn flex items-center gap-2"' onClick={onNext}>
+        <button className='btn flex items-center gap-2' onClick={onNext}>
           Next <ChevronRight className='w-4 h-4' />
         </button>
       </div>
 
       {/* Word Display */}
-      <div className='flex justify-center pt-12 pb-10'>
+      <div className='flex justify-center pt-12 pb-10 word-container'>
         <p className='text-5xl font-semibold'>
           {words.words[groupIndex][wordIndex]}
         </p>
@@ -70,7 +68,7 @@ const WordBar = ({
           onClick={() => setReviewed(!reviewed)}
         >
           <Star
-            className={`w-4 h-4${
+            className={`w-4 h-4 ${
               reviewed ? 'text-yellow-400 fill-yellow-400' : 'text-zinc-400'
             }`}
           />
